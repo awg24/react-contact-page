@@ -74,6 +74,7 @@ module.exports = React.createClass({
 					console.log("sent");
 					var successMessage = {message: "Message Sent!"};
 					that.setState({success:successMessage});
+					that.props.routing.navigate("sent",{trigger: true})
 				}
 			});
 		}

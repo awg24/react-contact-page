@@ -33397,21 +33397,76 @@ module.exports = React.createClass({
 					console.log("sent");
 					var successMessage = { message: "Message Sent!" };
 					that.setState({ success: successMessage });
+					that.props.routing.navigate("sent", { trigger: true });
 				}
 			});
 		}
 	}
 });
 
-},{"../models/ContactFormModel":163,"backbone":1,"jquery":4,"react":159}],162:[function(require,module,exports){
+},{"../models/ContactFormModel":164,"backbone":1,"jquery":4,"react":159}],162:[function(require,module,exports){
+"use strict";
+
+var React = require("react");
+
+module.exports = React.createClass({
+	displayName: "exports",
+
+	render: function render() {
+		return React.createElement(
+			"div",
+			null,
+			React.createElement(
+				"div",
+				{ className: "panel center-block text-center panel-primary give-width" },
+				React.createElement(
+					"div",
+					{ className: "panel-heading" },
+					React.createElement(
+						"h3",
+						{ className: "panel-title" },
+						"Sent!"
+					)
+				),
+				React.createElement(
+					"div",
+					{ className: "panel-body" },
+					React.createElement(
+						"h3",
+						null,
+						"Please wait about 5 minutes before trying to submit again!"
+					)
+				)
+			)
+		);
+	}
+});
+
+},{"react":159}],163:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
 var ContactForm = require("./components/ContactFormComponent");
+var SuccessMessage = require("./components/SuccessMessageComponent");
+var Backbone = require("backbone");
 
-React.render(React.createElement(ContactForm, null), document.getElementById("container"));
+var App = Backbone.Router.extend({
+	routes: {
+		"": "contact",
+		"sent": "sentMessage"
+	},
+	contact: function contact() {
+		React.render(React.createElement(ContactForm, { routing: this }), document.getElementById("container"));
+	},
+	sentMessage: function sentMessage() {
+		React.render(React.createElement(SuccessMessage, null), document.getElementById("container"));
+	}
+});
 
-},{"./components/ContactFormComponent":161,"react":159}],163:[function(require,module,exports){
+var myRouter = new App();
+Backbone.history.start();
+
+},{"./components/ContactFormComponent":161,"./components/SuccessMessageComponent":162,"backbone":1,"react":159}],164:[function(require,module,exports){
 "use strict";
 
 var Backbone = require("backbone");
@@ -33449,7 +33504,7 @@ module.exports = Backbone.Model.extend({
 	urlRoot: "http://localhost:3000/send-email"
 });
 
-},{"backbone":1,"backbone/node_modules/underscore":2,"jquery":4,"validator":160}]},{},[162])
+},{"backbone":1,"backbone/node_modules/underscore":2,"jquery":4,"validator":160}]},{},[163])
 
 
 //# sourceMappingURL=all.js.map
